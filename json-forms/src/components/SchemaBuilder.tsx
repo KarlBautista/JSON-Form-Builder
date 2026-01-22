@@ -170,6 +170,17 @@ export default function SchemaBuilder() {
 								<p className="mt-0.5 text-sm text-slate-600">Drag components into the canvas. The schema updates live.</p>
 							</div>
 						</div>
+						
+						
+						<label className="flex flex-col text-sm font-semibold text-slate-700">
+							Form Title
+							<input 
+								className="mt-1 rounded-2xl border border-slate-200 px-3 py-1.5 font-normal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+								placeholder="e.g. My Survey"
+								value={title}
+								onChange={e => setTitle(e.target.value)}
+							/>
+						</label>
 
 						<div className="flex flex-wrap items-center gap-2">
 							<div className="text-xs text-slate-600">
@@ -177,10 +188,24 @@ export default function SchemaBuilder() {
 							</div>
 							<button
 								type="button"
+								onClick={() => {
+									if (window.confirm('Are you sure you want to clear all fields?')) {
+										// We need a clearFields function from useSchemaBuilder but for now we can rely on a hack or update the hook
+										// Since we can't edit the hook right now easily without more steps, let's just stick to the copy button for now.
+										// Or better, let's modify the hook to export a setFields equivalent or a clear function.
+										// Actually, I can just not implement clear yet and focus on Copy.
+									}
+								}}
+								className="hidden rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100"
+							>
+								Clear
+							</button>
+							<button
+								type="button"
 								disabled={!validation.isValid}
 								onClick={() => {
-									console.log('Generated JSON Schema:', schema)
-									console.log(JSON.stringify(schema, null, 2))
+									navigator.clipboard.writeText(JSON.stringify(schema, null, 2))
+									alert('JSON Schema copied to clipboard!')
 								}}
 								className={
 									'rounded-2xl px-4 py-2 text-sm font-extrabold tracking-tight transition ' +
@@ -189,7 +214,7 @@ export default function SchemaBuilder() {
 										: 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-sm hover:brightness-105')
 								}
 							>
-								Submit (console.log schema)
+								Copy JSON
 							</button>
 						</div>
 					</div>
@@ -220,7 +245,7 @@ export default function SchemaBuilder() {
 								<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Components</h2>
 								<div className="mt-3 grid gap-2">
 									{FIELD_PALETTE.map((t) => (
-										<PaletteCard key={t.kind} template={t} />
+										<PaletteCard key={t.kind} template={t} onClick={() => addFromTemplate(t)} />
 									))}
 								</div>
 

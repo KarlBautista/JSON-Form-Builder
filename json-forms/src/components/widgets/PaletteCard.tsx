@@ -3,9 +3,10 @@ import type { FieldTemplate } from '../../schemas/fieldPalette'
 
 type Props = {
 	template: FieldTemplate
+	onClick: () => void
 }
 
-export default function PaletteCard({ template }: Props) {
+export default function PaletteCard({ template, onClick }: Props) {
 	const id = `palette:${template.kind}`
 	const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
 		id,
@@ -24,11 +25,12 @@ export default function PaletteCard({ template }: Props) {
 		<div
 			ref={setNodeRef}
 			style={style}
+			onClick={onClick}
 			className={
-				'group transform-gpu will-change-transform rounded-2xl border border-slate-200 bg-white p-2 shadow-sm select-none transition-colors ' +
+				'group transform-gpu will-change-transform rounded-2xl border border-slate-200 bg-white p-2 shadow-sm select-none transition-colors cursor-pointer ' +
 				(isDragging
 					? 'opacity-70'
-					: 'hover:border-sky-300 hover:bg-sky-50')
+					: 'hover:border-sky-300 hover:bg-sky-50 active:scale-95 active:border-sky-400')
 			}
 			{...listeners}
 			{...attributes}
@@ -39,7 +41,8 @@ export default function PaletteCard({ template }: Props) {
 				</div>
 				<div>
 					<div className="text-sm font-semibold text-slate-900">{template.label}</div>
-					<div className="text-xs text-slate-500">Drag to add</div>
+					<div className="text-xs text-slate-500 hidden sm:block">Drag to add</div>
+					<div className="text-xs text-slate-500 sm:hidden">Tap to add</div>
 				</div>
 			</div>
 		</div>
