@@ -1,6 +1,8 @@
 import { CSS } from '@dnd-kit/utilities'
 import { useSortable } from '@dnd-kit/sortable'
+import { GripVertical } from 'lucide-react'
 import type { BuilderField } from '../hooks/useSchemaBuilder'
+import { FIELD_PALETTE } from '../../schemas/fieldPalette'
 
 type Props = {
 	field: BuilderField
@@ -31,6 +33,9 @@ export default function CanvasFieldCard({ field, onChange, onRemove }: Props) {
 		transition,
 	}
 
+	const template = FIELD_PALETTE.find((t) => t.kind === field.kind)
+	const Icon = template?.icon
+
 	return (
 		<div
 			ref={setNodeRef}
@@ -42,20 +47,27 @@ export default function CanvasFieldCard({ field, onChange, onRemove }: Props) {
 		>
 			<div className="flex items-start justify-between gap-3">
 				<div className="min-w-0">
-					<div className="flex items-center gap-2">
+					<div className="mb-3 flex items-center gap-3">
 						<button
 							type="button"
-							className="cursor-grab rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-700 hover:bg-slate-100"
+							className="cursor-grab p-1 text-slate-400 hover:text-slate-600 active:cursor-grabbing"
 							{...listeners}
 							{...attributes}
 							title="Drag to reorder"
 						>
-							≡
+							<GripVertical size={16} />
 						</button>
-						<div className="text-sm font-semibold text-slate-900 truncate">{field.title || field.name}</div>
-						<span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] text-slate-700">
-							{field.kind}
-						</span>
+						{Icon && (
+							<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
+								<Icon size={16} />
+							</div>
+						)}
+						<div>
+							<div className="text-sm font-semibold text-slate-900 truncate">{field.title || field.name}</div>
+							<div className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+								{template?.label || field.kind}
+							</div>
+						</div>
 					</div>
 					<div className="mt-2 grid grid-cols-2 gap-2">
 						<label className="grid gap-1 text-xs text-slate-600">

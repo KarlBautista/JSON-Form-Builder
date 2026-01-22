@@ -18,12 +18,14 @@ export default function PaletteCard({ template }: Props) {
 		}
 		: undefined
 
+	const Icon = template.icon
+
 	return (
 		<div
 			ref={setNodeRef}
 			style={style}
 			className={
-				'transform-gpu will-change-transform rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm select-none transition-colors ' +
+				'group transform-gpu will-change-transform rounded-2xl border border-slate-200 bg-white p-2 shadow-sm select-none transition-colors ' +
 				(isDragging
 					? 'opacity-70'
 					: 'hover:border-sky-300 hover:bg-sky-50')
@@ -31,8 +33,15 @@ export default function PaletteCard({ template }: Props) {
 			{...listeners}
 			{...attributes}
 		>
-			<div className="text-sm font-semibold text-slate-900">{template.label}</div>
-			<div className="text-xs text-slate-500">Drag into canvas</div>
+			<div className="flex items-center gap-3">
+				<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-400 transition-colors group-hover:bg-white group-hover:text-sky-500">
+					<Icon size={20} />
+				</div>
+				<div>
+					<div className="text-sm font-semibold text-slate-900">{template.label}</div>
+					<div className="text-xs text-slate-500">Drag to add</div>
+				</div>
+			</div>
 		</div>
 	)
 }

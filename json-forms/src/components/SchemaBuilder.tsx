@@ -15,7 +15,7 @@ import Form from '@rjsf/mui'
 import type { RJSFSchema } from '@rjsf/utils'
 import validator from '@rjsf/validator-ajv8'
 import { FIELD_PALETTE, type FieldTemplate } from '../schemas/fieldPalette'
-import { useSchemaBuilder } from './hooks/useSchemaBuilder'
+import { useSchemaBuilder, type BuilderField } from './hooks/useSchemaBuilder'
 import CanvasFieldCard from './widgets/CanvasFieldCard'
 import FormDataPanel from './widgets/FormDataPanel'
 import JsonSchemaPanel from './widgets/JsonSchemaPanel'
@@ -70,6 +70,7 @@ export default function SchemaBuilder() {
 	const { title, setTitle, fields, schema, uiSchema, validation, addFromTemplate, updateField, removeField, moveField } =
 		useSchemaBuilder()
 	const [activeOverlayLabel, setActiveOverlayLabel] = useState<string | null>(null)
+	const [activeOverlayIcon, setActiveOverlayIcon] = useState<React.ElementType | null>(null)
 	const [uiSchemaText, setUiSchemaText] = useState<string>(() => JSON.stringify(uiSchema, null, 2))
 	const [uiSchemaDirty, setUiSchemaDirty] = useState(false)
 	const [liveFormData, setLiveFormData] = useState<unknown>(null)
@@ -100,23 +101,29 @@ export default function SchemaBuilder() {
 		if (from === 'palette') {
 			const template = event.active?.data?.current?.template as FieldTemplate | undefined
 			setActiveOverlayLabel(template?.label ?? 'Component')
+			setActiveOverlayIcon(template?.icon ?? null)
 			return
 		}
 		if (from === 'canvas') {
 			const id = event.active?.id
 			const field = typeof id === 'string' ? fields.find((f) => f.id === id) : undefined
 			setActiveOverlayLabel(field?.title || field?.name || 'Field')
+			const template = field ? FIELD_PALETTE.find((t) => t.kind === field.kind) : undefined
+			setActiveOverlayIcon(template?.icon ?? null)
 			return
 		}
 		setActiveOverlayLabel(null)
+		setActiveOverlayIcon(null)
 	}
 
 	function handleDragCancel() {
 		setActiveOverlayLabel(null)
+		setActiveOverlayIcon(null)
 	}
 
 	function handleDragEnd(event: DragEndEvent) {
 		setActiveOverlayLabel(null)
+		setActiveOverlayIcon(null)
 		const { active, over } = event
 		if (!over) return
 
@@ -138,12 +145,14 @@ export default function SchemaBuilder() {
 
 	const overlayNode = useMemo(() => {
 		if (!activeOverlayLabel) return null
+		const Icon = activeOverlayIcon
 		return (
-			<div className="pointer-events-none transform-gpu rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-lg">
+			<div className="pointer-events-none flex transform-gpu items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-lg">
+				{Icon && <Icon className="h-4 w-4 text-slate-500" />}
 				{activeOverlayLabel}
 			</div>
 		)
-	}, [activeOverlayLabel])
+	}, [activeOverlayLabel, activeOverlayIcon])
 
 	const schemaForPreview: RJSFSchema = schema
 

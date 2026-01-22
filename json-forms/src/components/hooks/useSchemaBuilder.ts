@@ -148,7 +148,8 @@ export function useSchemaBuilder() {
 			next[field.name] = {
 				...(field.kind === 'boolean' ? { 'ui:widget': 'checkbox' } : null),
 				...(field.kind === 'date' ? { 'ui:widget': 'date' } : null),
-				...(field.kind === 'datetime' ? { 'ui:widget': 'alt-datetime' } : null),
+				// Use a single input widget; the "alt-*" widgets render many dropdowns.
+				...(field.kind === 'datetime' ? { 'ui:widget': 'datetime' } : null),
 				...(field.kind === 'select' ? { 'ui:widget': 'select' } : null),
 				...(field.kind === 'radio' ? { 'ui:widget': 'radio' } : null),
 				...(field.kind === 'multiselect' ? { 'ui:widget': 'checkboxes' } : null),
