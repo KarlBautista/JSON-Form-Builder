@@ -1,0 +1,101 @@
+/* Minimal styling so the RJSF default form is readable */
+
+.page {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 24px;
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.header h1 {
+	margin: 0 0 8px;
+	font-size: 28px;
+}
+
+.header p {
+	margin: 0 0 16px;
+	color: #555;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+	align-items: start;
+}
+
+@media (max-width: 980px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.card {
+	border: 1px solid #e6e6e6;
+	border-radius: 12px;
+	padding: 16px;
+	background: white;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+	margin: 0 0 12px;
+	font-size: 18px;
+}
+
+.code {
+	background: #0b1020;
+	color: #e7e9ee;
+	padding: 12px;
+	border-radius: 10px;
+	overflow: auto;
+	max-height: 340px;
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.hint {
+	margin-top: 12px;
+	color: #555;
+	font-size: 13px;
+}
+
+/* Make the default RJSF HTML form look nicer */
+form {
+	display: grid;
+	gap: 10px;
+}
+
+label {
+	font-weight: 600;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='number'],
+textarea,
+select {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #d7d7d7;
+	border-radius: 10px;
+}
+
+button[type='submit'] {
+	padding: 10px 14px;
+	border: 0;
+	border-radius: 10px;
+	background: #2563eb;
+	color: white;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+button[type='submit']:hover {
+	filter: brightness(1.05);
+}
+
+.field-description {
+	color: #666;
+	font-size: 12px;
+}

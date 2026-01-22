@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	color: rgb(226 232 240);
+	background:
+		radial-gradient(1200px 600px at 10% 10%, rgba(59, 130, 246, 0.22), transparent 60%),
+		radial-gradient(900px 500px at 85% 20%, rgba(6, 182, 212, 0.18), transparent 55%),
+		linear-gradient(180deg, rgb(2 6 23) 0%, rgb(3 7 18) 55%, rgb(2 6 23) 100%);
+}
+
+::selection {
+	background: rgba(59, 130, 246, 0.28);
+}
+
+/* Subtle scrollbar for the dark UI */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: rgba(148, 163, 184, 0.28);
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background: rgba(148, 163, 184, 0.45);
+	background-clip: content-box;
+}
+
+/* Keep this file minimal; styling is primarily via Tailwind classes in JSX. */
+
+/*
+	RJSF preview styling (since it renders plain HTML controls).
+	This keeps the preview consistent with the rest of the app.
+*/
+.rjsf {
+	display: grid;
+	gap: 12px;
+}
+
+.rjsf label {
+	font-weight: 600;
+}
+
+.rjsf input[type='text'],
+.rjsf input[type='email'],
+.rjsf input[type='number'],
+.rjsf textarea,
+.rjsf select {
+	width: 100%;
+	padding: 10px 12px;
+	border-radius: 14px;
+	border: 1px solid rgba(148, 163, 184, 0.28);
+	background: rgba(2, 6, 23, 0.35);
+	color: rgb(226 232 240);
+}
+
+.dark .rjsf input[type='text'],
+.dark .rjsf input[type='email'],
+.dark .rjsf input[type='number'],
+.dark .rjsf textarea,
+.dark .rjsf select {
+	background: rgba(2, 6, 23, 0.45);
+	border-color: rgba(51, 65, 85, 0.8);
+}
+
+.rjsf button[type='submit'] {
+	padding: 10px 14px;
+	border-radius: 14px;
+	border: 1px solid rgba(148, 163, 184, 0.28);
+	background: rgba(2, 6, 23, 0.35);
+	font-weight: 700;
+	color: rgb(226 232 240);
+}
+
+.dark .rjsf button[type='submit'] {
+	background: rgba(2, 6, 23, 0.55);
+	border-color: rgba(51, 65, 85, 0.8);
+	color: inherit;
+}
+
+.rjsf .text-danger {
+	color: rgb(220, 38, 38);
+}
