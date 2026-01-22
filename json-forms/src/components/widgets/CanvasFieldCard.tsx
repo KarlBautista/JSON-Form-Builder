@@ -89,6 +89,98 @@ export default function CanvasFieldCard({ field, onChange, onRemove }: Props) {
 							/>
 						</label>
 					</div>
+
+					<div className="mt-2">
+						<label className="grid gap-1 text-xs text-slate-600">
+							<span className="font-semibold">Description (Help Text)</span>
+							<input
+								className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+								value={field.description || ''}
+								onChange={(e) => onChange({ description: e.target.value })}
+								placeholder="Small help text below the field"
+							/>
+						</label>
+					</div>
+
+					{['string', 'textarea', 'email', 'url', 'password', 'number', 'integer'].includes(field.kind) && (
+						<div className="mt-2">
+							<label className="grid gap-1 text-xs text-slate-600">
+								<span className="font-semibold">Placeholder</span>
+								<input
+									className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+									value={field.placeholder || ''}
+									onChange={(e) => onChange({ placeholder: e.target.value })}
+									placeholder="Placeholder text"
+								/>
+							</label>
+						</div>
+					)}
+
+					{/* String Validation */}
+					{['string', 'textarea', 'email', 'url', 'password'].includes(field.kind) && (
+						<div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4">
+							<label className="grid gap-1 text-xs text-slate-600">
+								<span className="font-semibold">Min Length</span>
+								<input
+									type="number"
+									className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+									value={field.minLength ?? ''}
+									onChange={(e) =>
+										onChange({ minLength: e.target.value ? parseInt(e.target.value) : undefined })
+									}
+								/>
+							</label>
+							<label className="grid gap-1 text-xs text-slate-600">
+								<span className="font-semibold">Max Length</span>
+								<input
+									type="number"
+									className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+									value={field.maxLength ?? ''}
+									onChange={(e) =>
+										onChange({ maxLength: e.target.value ? parseInt(e.target.value) : undefined })
+									}
+								/>
+							</label>
+							<label className="grid gap-1 text-xs text-slate-600">
+								<span className="font-semibold">Pattern (Regex)</span>
+								<input
+									className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+									value={field.pattern || ''}
+									onChange={(e) => onChange({ pattern: e.target.value || undefined })}
+									placeholder="^expr$"
+								/>
+							</label>
+						</div>
+					)}
+
+					{/* Number Validation */}
+					{['number', 'integer'].includes(field.kind) && (
+						<div className="mt-2 grid grid-cols-2 gap-2">
+							<label className="grid gap-1 text-xs text-slate-600">
+								<span className="font-semibold">Minimum</span>
+								<input
+									type="number"
+									className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+									value={field.minimum ?? ''}
+									onChange={(e) =>
+										onChange({ minimum: e.target.value ? parseFloat(e.target.value) : undefined })
+									}
+								/>
+							</label>
+							<label className="grid gap-1 text-xs text-slate-600">
+								<span className="font-semibold">Maximum</span>
+								<input
+									type="number"
+									className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+									value={field.maximum ?? ''}
+									onChange={(e) =>
+										onChange({ maximum: e.target.value ? parseFloat(e.target.value) : undefined })
+									}
+								/>
+							</label>
+						</div>
+					)}
+
 					<div className="mt-2 flex items-center justify-between">
 						<label className="flex items-center gap-2 text-sm text-slate-700">
 							<input

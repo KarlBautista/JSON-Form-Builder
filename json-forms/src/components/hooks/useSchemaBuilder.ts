@@ -8,8 +8,17 @@ export type BuilderField = {
 	kind: FieldKind
 	name: string
 	title: string
+	description?: string
 	required: boolean
 	enumValues?: string[]
+	// Validation
+	minLength?: number
+	maxLength?: number
+	pattern?: string
+	minimum?: number
+	maximum?: number
+	// Visual
+	placeholder?: string
 }
 
 function sanitizeName(raw: string): string {
@@ -97,6 +106,21 @@ export function useSchemaBuilder() {
 		for (const field of fields) {
 			if (!field.name) continue
 			const prop: any = { title: field.title || field.name }
+			if (field.description) prop.description = field.description
+
+			// String validation
+			if (['string', 'textarea', 'email', 'url', 'password'].includes(field.kind)) {
+				if (field.minLength !== undefined) prop.minLength = field.minLength
+				if (field.maxLength !== undefined) prop.maxLength = field.maxLength
+				if (field.pattern) prop.pattern = field.pattern
+			}
+
+			// Number validation
+			if (['integer', 'number'].includes(field.kind)) {
+				if (field.minimum !== undefined) prop.minimum = field.minimum
+				if (field.maximum !== undefined) prop.maximum = field.maximum
+			}
+			
 			if (field.kind === 'select' || field.kind === 'radio') {
 				prop.type = 'string'
 				prop.enum = (field.enumValues ?? []).filter(Boolean)
@@ -146,6 +170,7 @@ export function useSchemaBuilder() {
 		for (const field of fields) {
 			if (!field.name) continue
 			next[field.name] = {
+				...(field.placeholder ? { 'ui:placeholder': field.placeholder } : null),
 				...(field.kind === 'boolean' ? { 'ui:widget': 'checkbox' } : null),
 				...(field.kind === 'date' ? { 'ui:widget': 'date' } : null),
 				// Use a single input widget; the "alt-*" widgets render many dropdowns.
