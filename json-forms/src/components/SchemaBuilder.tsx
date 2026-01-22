@@ -22,34 +22,223 @@ import JsonSchemaPanel from './widgets/JsonSchemaPanel'
 import PaletteCard from './widgets/PaletteCard'
 import UiSchemaPanel from './widgets/UiSchemaPanel'
 
+type ThemeOption = 'modern' | 'midnight' | 'ocean' | 'sunset' | 'forest' | 'pastel'
 
-const muiTheme = createTheme({
-	palette: {
-		mode: 'light',
-	},
-	shape: {
-		borderRadius: 14,
-	},
-	components: {
-		MuiPaper: {
-			styleOverrides: {
-				root: {
-					backgroundImage: 'none',
-					backgroundColor: '#ffffff',
-					border: '1px solid rgba(148, 163, 184, 0.45)',
+const themes: Record<ThemeOption, ReturnType<typeof createTheme>> = {
+	modern: createTheme({
+		palette: {
+			mode: 'light',
+			primary: {
+				main: '#0ea5e9',
+			},
+			background: {
+				default: '#f8fafc',
+				paper: '#ffffff',
+			},
+		},
+		shape: {
+			borderRadius: 12,
+		},
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'none',
+						boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)',
+						border: '1px solid #e2e8f0',
+					},
+				},
+			},
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						textTransform: 'none',
+						fontWeight: 600,
+					},
 				},
 			},
 		},
-		MuiInputBase: {
-			styleOverrides: {
-				root: {
-					backgroundColor: 'rgba(255, 255, 255, 0.95)',
-					borderRadius: 14,
+	}),
+	midnight: createTheme({
+		palette: {
+			mode: 'dark',
+			primary: {
+				main: '#3b82f6',
+			},
+			secondary: {
+				main: '#8b5cf6',
+			},
+			background: {
+				default: '#0f172a',
+				paper: '#1e293b',
+			},
+			text: {
+				primary: '#f1f5f9',
+				secondary: '#94a3b8',
+			},
+		},
+		shape: {
+			borderRadius: 16,
+		},
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'none',
+						boxShadow: '0 0 0 1px rgba(148, 163, 184, 0.1)',
+					},
+				},
+			},
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						backgroundColor: '#334155',
+					},
 				},
 			},
 		},
-	},
-})
+	}),
+	ocean: createTheme({
+		palette: {
+			mode: 'light',
+			primary: {
+				main: '#0891b2',
+			},
+			secondary: {
+				main: '#06b6d4',
+			},
+			background: {
+				default: '#ecfeff',
+				paper: '#ffffff',
+			},
+		},
+		shape: {
+			borderRadius: 14,
+		},
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%)',
+						border: '2px solid #a5f3fc',
+						boxShadow: '0 4px 6px -1px rgb(6 182 212 / 0.1)',
+					},
+				},
+			},
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'linear-gradient(to right, #06b6d4, #0891b2)',
+					},
+				},
+			},
+		},
+	}),
+	sunset: createTheme({
+		palette: {
+			mode: 'light',
+			primary: {
+				main: '#f97316',
+			},
+			secondary: {
+				main: '#ec4899',
+			},
+			background: {
+				default: '#fff7ed',
+				paper: '#ffffff',
+			},
+		},
+		shape: {
+			borderRadius: 18,
+		},
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #fed7aa 100%)',
+						border: '2px solid #fdba74',
+						boxShadow: '0 4px 6px -1px rgb(249 115 22 / 0.1)',
+					},
+				},
+			},
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'linear-gradient(to right, #f97316, #ec4899)',
+						fontWeight: 700,
+					},
+				},
+			},
+		},
+	}),
+	forest: createTheme({
+		palette: {
+			mode: 'light',
+			primary: {
+				main: '#16a34a',
+			},
+			secondary: {
+				main: '#84cc16',
+			},
+			background: {
+				default: '#f0fdf4',
+				paper: '#ffffff',
+			},
+		},
+		shape: {
+			borderRadius: 10,
+		},
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'none',
+						border: '2px solid #bbf7d0',
+						boxShadow: '0 2px 4px rgb(22 163 74 / 0.1)',
+					},
+				},
+			},
+		},
+	}),
+	pastel: createTheme({
+		palette: {
+			mode: 'light',
+			primary: {
+				main: '#a78bfa',
+			},
+			secondary: {
+				main: '#f9a8d4',
+			},
+			background: {
+				default: '#faf5ff',
+				paper: '#ffffff',
+			},
+		},
+		shape: {
+			borderRadius: 24,
+		},
+		components: {
+			MuiPaper: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'linear-gradient(135deg, #fae8ff 0%, #fbcfe8 100%)',
+						border: '2px solid #e9d5ff',
+						boxShadow: '0 8px 16px -4px rgb(167 139 250 / 0.15)',
+					},
+				},
+			},
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						backgroundImage: 'linear-gradient(to right, #a78bfa, #f9a8d4)',
+						textTransform: 'none',
+						fontWeight: 600,
+					},
+				},
+			},
+		},
+	}),
+}
 
 function CanvasDropZone({ children }: { children: React.ReactNode }) {
 	const { setNodeRef, isOver } = useDroppable({ id: 'canvas' })
@@ -75,6 +264,7 @@ export default function SchemaBuilder() {
 	const [uiSchemaDirty, setUiSchemaDirty] = useState(false)
 	const [liveFormData, setLiveFormData] = useState<unknown>(null)
 	const [submittedFormData, setSubmittedFormData] = useState<unknown>(null)
+	const [selectedTheme, setSelectedTheme] = useState<ThemeOption>('modern')
 
 	useEffect(() => {
 		if (!uiSchemaDirty) setUiSchemaText(JSON.stringify(uiSchema, null, 2))
@@ -288,13 +478,28 @@ export default function SchemaBuilder() {
 							</div>
 
 							<div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-								<div className="flex items-center justify-between">
-									<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Live Preview</h2>
-									<div className="text-xs text-slate-500">RJSF render</div>
-								</div>
-								<div className="mt-3 max-h-[60vh] overflow-auto pr-1">
-									<ThemeProvider theme={muiTheme}>
-										<Form
+						<div className="flex items-center justify-between gap-3">
+							<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Live Preview</h2>
+							<select
+								value={selectedTheme}
+								onChange={(e) => setSelectedTheme(e.target.value as ThemeOption)}
+								className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+							>
+							<option value="modern">Modern Blue</option>
+							<option value="midnight">Midnight Dark</option>
+							<option value="ocean">Ocean Breeze</option>
+							<option value="sunset">Sunset Glow</option>
+							<option value="forest">Forest Green</option>
+							<option value="pastel">Pastel Dream</option>
+							</select>
+						</div>
+						<div className="mt-3 max-h-[60vh] overflow-auto pr-1">
+							<ThemeProvider theme={themes[selectedTheme]}>							<div style={{ 
+								backgroundColor: themes[selectedTheme].palette.background.default,
+								padding: '20px',
+								borderRadius: '12px',
+								minHeight: '200px'
+							}}>										<Form
 											schema={schemaForPreview}
 											uiSchema={uiSchemaForPreview}
 											validator={validator}
@@ -304,9 +509,10 @@ export default function SchemaBuilder() {
 												console.log('Preview form submit:', formData)
 											}}
 										/>
-									</ThemeProvider>
 								</div>
-							</div>
+							</ThemeProvider>
+						</div>
+					</div>
 						</div>
 
 						{/* Right: JSON Schema */}
