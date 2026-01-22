@@ -7,11 +7,11 @@ body {
 
 body {
 	margin: 0;
-	color: rgb(226 232 240);
+	color: rgb(15 23 42);
 	background:
-		radial-gradient(1200px 600px at 10% 10%, rgba(59, 130, 246, 0.22), transparent 60%),
-		radial-gradient(900px 500px at 85% 20%, rgba(6, 182, 212, 0.18), transparent 55%),
-		linear-gradient(180deg, rgb(2 6 23) 0%, rgb(3 7 18) 55%, rgb(2 6 23) 100%);
+		radial-gradient(1200px 600px at 12% 8%, rgba(59, 130, 246, 0.14), transparent 60%),
+		radial-gradient(900px 500px at 85% 15%, rgba(6, 182, 212, 0.12), transparent 55%),
+		linear-gradient(180deg, rgb(248 250 252) 0%, rgb(241 245 249) 55%, rgb(248 250 252) 100%);
 }
 
 ::selection {
@@ -64,9 +64,9 @@ body {
 	width: 100%;
 	padding: 10px 12px;
 	border-radius: 14px;
-	border: 1px solid rgba(148, 163, 184, 0.28);
-	background: rgba(2, 6, 23, 0.35);
-	color: rgb(226 232 240);
+	border: 1px solid rgba(148, 163, 184, 0.5);
+	background: rgba(255, 255, 255, 0.95);
+	color: rgb(15 23 42);
 }
 
 .dark .rjsf input[type='text'],
@@ -81,10 +81,10 @@ body {
 .rjsf button[type='submit'] {
 	padding: 10px 14px;
 	border-radius: 14px;
-	border: 1px solid rgba(148, 163, 184, 0.28);
-	background: rgba(2, 6, 23, 0.35);
+	border: 1px solid rgba(148, 163, 184, 0.5);
+	background: rgba(255, 255, 255, 0.95);
 	font-weight: 700;
-	color: rgb(226 232 240);
+	color: rgb(15 23 42);
 }
 
 .dark .rjsf button[type='submit'] {

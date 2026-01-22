@@ -22,9 +22,10 @@ import JsonSchemaPanel from './widgets/JsonSchemaPanel'
 import PaletteCard from './widgets/PaletteCard'
 import UiSchemaPanel from './widgets/UiSchemaPanel'
 
-const muiDarkTheme = createTheme({
+
+const muiTheme = createTheme({
 	palette: {
-		mode: 'dark',
+		mode: 'light',
 	},
 	shape: {
 		borderRadius: 14,
@@ -34,16 +35,15 @@ const muiDarkTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundImage: 'none',
-					backgroundColor: 'rgba(2, 6, 23, 0.35)',
-					border: '1px solid rgba(255, 255, 255, 0.10)',
-					backdropFilter: 'blur(16px)',
+					backgroundColor: '#ffffff',
+					border: '1px solid rgba(148, 163, 184, 0.45)',
 				},
 			},
 		},
 		MuiInputBase: {
 			styleOverrides: {
 				root: {
-					backgroundColor: 'rgba(2, 6, 23, 0.25)',
+					backgroundColor: 'rgba(255, 255, 255, 0.95)',
 					borderRadius: 14,
 				},
 			},
@@ -57,8 +57,8 @@ function CanvasDropZone({ children }: { children: React.ReactNode }) {
 		<div
 			ref={setNodeRef}
 			className={
-				'max-h-[60vh] min-h-[240px] overflow-auto rounded-2xl border border-dashed p-3 transition ' +
-				(isOver ? 'border-cyan-300/70 bg-white/5' : 'border-white/15 bg-white/5')
+				'max-h-[60vh] min-h-[240px] overflow-auto rounded-2xl border-2 border-dashed p-3 transition ' +
+				(isOver ? 'border-blue-400 bg-blue-50/40' : 'border-slate-200 bg-white')
 			}
 		>
 			{children}
@@ -139,7 +139,7 @@ export default function SchemaBuilder() {
 	const overlayNode = useMemo(() => {
 		if (!activeOverlayLabel) return null
 		return (
-			<div className="pointer-events-none transform-gpu rounded-2xl border border-white/15 bg-slate-950/80 px-3 py-2 text-sm font-semibold text-slate-50 shadow-lg">
+			<div className="pointer-events-none transform-gpu rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-lg">
 				{activeOverlayLabel}
 			</div>
 		)
@@ -150,21 +150,21 @@ export default function SchemaBuilder() {
 	return (
 		<div className="min-h-screen">
 			<div className="mx-auto max-w-[1400px] p-4 lg:p-6">
-				<div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_25px_80px_-60px_rgba(59,130,246,0.65)] backdrop-blur-xl lg:p-5">
+				<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:p-5">
 					<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 						<div className="flex items-start gap-3">
-							<div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 ring-1 ring-white/10">
-								<div className="h-6 w-6 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500" />
+							<div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-sky-500/15 to-indigo-500/15 ring-1 ring-slate-200">
+								<div className="h-6 w-6 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500" />
 							</div>
 							<div>
-								<h1 className="text-lg font-extrabold tracking-tight text-slate-50 lg:text-xl">JSON Schema Form Builder</h1>
-								<p className="mt-0.5 text-sm text-slate-300">Drag components into the canvas. The schema updates live.</p>
+								<h1 className="text-lg font-extrabold tracking-tight text-slate-900 lg:text-xl">JSON Schema Form Builder</h1>
+								<p className="mt-0.5 text-sm text-slate-600">Drag components into the canvas. The schema updates live.</p>
 							</div>
 						</div>
 
 						<div className="flex flex-wrap items-center gap-2">
-							<div className="text-xs text-slate-300">
-								<span className="rounded-full border border-white/10 bg-white/5 px-2 py-1">Fields: {fields.length}</span>
+							<div className="text-xs text-slate-600">
+								<span className="rounded-full border border-slate-200 bg-white px-2 py-1">Fields: {fields.length}</span>
 							</div>
 							<button
 								type="button"
@@ -176,8 +176,8 @@ export default function SchemaBuilder() {
 								className={
 									'rounded-2xl px-4 py-2 text-sm font-extrabold tracking-tight transition ' +
 									(!validation.isValid
-										? 'cursor-not-allowed border border-white/10 bg-white/5 text-slate-400'
-										: 'bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 shadow-[0_12px_40px_-20px_rgba(34,211,238,0.85)] hover:brightness-110')
+										? 'cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500'
+										: 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-sm hover:brightness-105')
 								}
 							>
 								Submit (console.log schema)
@@ -196,19 +196,19 @@ export default function SchemaBuilder() {
 					<div className="mt-4 grid grid-cols-12 gap-4">
 
 						<div className="col-span-12 lg:col-span-3">
-							<div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.85)] backdrop-blur-xl">
+							<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
 								<div className="mt-4">
-									<label className="mb-5 grid gap-1 text-xs text-slate-300">
+									<label className="mb-5 grid gap-1 text-xs text-slate-600">
 										<span className="font-semibold">Schema title</span>
 										<input
-											className="rounded-2xl border border-white/10 bg-slate-950/30 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+											className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
 											value={title}
 											onChange={(e) => setTitle(e.target.value)}
 											placeholder="e.g. Registration"
 										/>
 									</label>
 								</div>
-								<h2 className="text-sm font-extrabold tracking-tight text-slate-50">Components</h2>
+								<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Components</h2>
 								<div className="mt-3 grid gap-2">
 									{FIELD_PALETTE.map((t) => (
 										<PaletteCard key={t.kind} template={t} />
@@ -220,10 +220,10 @@ export default function SchemaBuilder() {
 
 						{/* Center: Canvas + Preview */}
 						<div className="col-span-12 lg:col-span-6">
-							<div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.85)] backdrop-blur-xl">
+							<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
 								<div className="flex items-center justify-between gap-3">
-									<h2 className="text-sm font-extrabold tracking-tight text-slate-50">Canvas</h2>
-									<div className="text-xs text-slate-300">Drag to reorder</div>
+									<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Canvas</h2>
+									<div className="text-xs text-slate-500">Drag to reorder</div>
 								</div>
 
 								<div className="mt-3">
@@ -231,8 +231,8 @@ export default function SchemaBuilder() {
 										{fields.length === 0 ? (
 											<div className="grid place-items-center py-12 text-center">
 												<div>
-													<div className="text-sm font-semibold text-slate-100">Drop components here</div>
-													<div className="text-xs text-slate-300">Then edit name/title/required</div>
+													<div className="text-sm font-semibold text-slate-800">Drop components here</div>
+													<div className="text-xs text-slate-500">Then edit name/title/required</div>
 												</div>
 											</div>
 										) : (
@@ -253,13 +253,13 @@ export default function SchemaBuilder() {
 								</div>
 							</div>
 
-							<div className="mt-4 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.85)] backdrop-blur-xl">
+							<div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
 								<div className="flex items-center justify-between">
-									<h2 className="text-sm font-extrabold tracking-tight text-slate-50">Live Preview</h2>
-									<div className="text-xs text-slate-300">RJSF render</div>
+									<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Live Preview</h2>
+									<div className="text-xs text-slate-500">RJSF render</div>
 								</div>
 								<div className="mt-3 max-h-[60vh] overflow-auto pr-1">
-									<ThemeProvider theme={muiDarkTheme}>
+									<ThemeProvider theme={muiTheme}>
 										<Form
 											schema={schemaForPreview}
 											uiSchema={uiSchemaForPreview}

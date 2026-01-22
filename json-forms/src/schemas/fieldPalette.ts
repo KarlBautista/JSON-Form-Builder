@@ -1,4 +1,17 @@
-export type FieldKind = 'string' | 'integer' | 'number' | 'boolean' | 'select' | 'date'
+export type FieldKind =
+	| 'string'
+	| 'textarea'
+	| 'email'
+	| 'password'
+	| 'url'
+	| 'integer'
+	| 'number'
+	| 'boolean'
+	| 'select'
+	| 'radio'
+	| 'multiselect'
+	| 'date'
+	| 'datetime'
 
 export type FieldTemplate = {
 	kind: FieldKind
@@ -15,6 +28,30 @@ export const FIELD_PALETTE: FieldTemplate[] = [
 		label: 'Text',
 		defaultTitle: 'Text',
 		defaultName: 'text',
+	},
+	{
+		kind: 'textarea',
+		label: 'Textarea',
+		defaultTitle: 'Long text',
+		defaultName: 'longText',
+	},
+	{
+		kind: 'email',
+		label: 'Email',
+		defaultTitle: 'Email',
+		defaultName: 'email',
+	},
+	{
+		kind: 'password',
+		label: 'Password',
+		defaultTitle: 'Password',
+		defaultName: 'password',
+	},
+	{
+		kind: 'url',
+		label: 'URL',
+		defaultTitle: 'Website',
+		defaultName: 'website',
 	},
 	{
 		kind: 'integer',
@@ -42,9 +79,29 @@ export const FIELD_PALETTE: FieldTemplate[] = [
 		defaultEnum: ['Option A', 'Option B'],
 	},
 	{
+		kind: 'radio',
+		label: 'Radio',
+		defaultTitle: 'Radio',
+		defaultName: 'radio',
+		defaultEnum: ['Option A', 'Option B'],
+	},
+	{
+		kind: 'multiselect',
+		label: 'Multi-select',
+		defaultTitle: 'Multi-select',
+		defaultName: 'multiSelect',
+		defaultEnum: ['Option A', 'Option B'],
+	},
+	{
 		kind: 'date',
 		label: 'Date',
 		defaultTitle: 'Date',
 		defaultName: 'date',
+	},
+	{
+		kind: 'datetime',
+		label: 'Date & time',
+		defaultTitle: 'Date & time',
+		defaultName: 'dateTime',
 	},
 ]

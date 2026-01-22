@@ -38,13 +38,14 @@ export function useSchemaBuilder() {
 		setFields((current) => {
 			const taken = new Set(current.map((f) => f.name))
 			const name = uniqueName(template.defaultName, taken)
+			const wantsEnum = template.kind === 'select' || template.kind === 'radio' || template.kind === 'multiselect'
 			const field: BuilderField = {
 				id: makeId(),
 				kind: template.kind,
 				name,
 				title: template.defaultTitle,
 				required: Boolean(template.defaultRequired),
-				enumValues: template.kind === 'select' ? template.defaultEnum ?? ['Option A'] : undefined,
+				enumValues: wantsEnum ? template.defaultEnum ?? ['Option A'] : undefined,
 			}
 			return [...current, field]
 		})
@@ -60,7 +61,8 @@ export function useSchemaBuilder() {
 				if (f.id !== id) return f
 				const next: BuilderField = { ...f, ...patch }
 				if (typeof patch.name === 'string') next.name = sanitizeName(patch.name)
-				if (next.kind !== 'select') next.enumValues = undefined
+				const wantsEnum = next.kind === 'select' || next.kind === 'radio' || next.kind === 'multiselect'
+				if (!wantsEnum) next.enumValues = undefined
 				return next
 			}),
 		)
@@ -95,12 +97,30 @@ export function useSchemaBuilder() {
 		for (const field of fields) {
 			if (!field.name) continue
 			const prop: any = { title: field.title || field.name }
-			if (field.kind === 'select') {
+			if (field.kind === 'select' || field.kind === 'radio') {
 				prop.type = 'string'
 				prop.enum = (field.enumValues ?? []).filter(Boolean)
+			} else if (field.kind === 'multiselect') {
+				prop.type = 'array'
+				prop.uniqueItems = true
+				prop.items = {
+					type: 'string',
+					enum: (field.enumValues ?? []).filter(Boolean),
+				}
 			} else if (field.kind === 'date') {
 				prop.type = 'string'
 				prop.format = 'date'
+			} else if (field.kind === 'datetime') {
+				prop.type = 'string'
+				prop.format = 'date-time'
+			} else if (field.kind === 'email') {
+				prop.type = 'string'
+				prop.format = 'email'
+			} else if (field.kind === 'url') {
+				prop.type = 'string'
+				prop.format = 'uri'
+			} else if (field.kind === 'textarea' || field.kind === 'password') {
+				prop.type = 'string'
 			} else {
 				prop.type = field.kind
 			}
@@ -128,7 +148,12 @@ export function useSchemaBuilder() {
 			next[field.name] = {
 				...(field.kind === 'boolean' ? { 'ui:widget': 'checkbox' } : null),
 				...(field.kind === 'date' ? { 'ui:widget': 'date' } : null),
+				...(field.kind === 'datetime' ? { 'ui:widget': 'alt-datetime' } : null),
 				...(field.kind === 'select' ? { 'ui:widget': 'select' } : null),
+				...(field.kind === 'radio' ? { 'ui:widget': 'radio' } : null),
+				...(field.kind === 'multiselect' ? { 'ui:widget': 'checkboxes' } : null),
+				...(field.kind === 'textarea' ? { 'ui:widget': 'textarea' } : null),
+				...(field.kind === 'password' ? { 'ui:widget': 'password' } : null),
 				'ui:placeholder': field.title || field.name,
 			}
 		}
