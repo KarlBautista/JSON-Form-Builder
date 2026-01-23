@@ -256,7 +256,7 @@ function CanvasDropZone({ children }: { children: React.ReactNode }) {
 }
 
 export default function SchemaBuilder() {
-	const { title, setTitle, fields, schema, uiSchema, validation, addFromTemplate, updateField, removeField, moveField } =
+	const { title, setTitle, fields, schema, uiSchema, validation, addFromTemplate, updateField, removeField, moveField, setFieldsFromSchema } =
 		useSchemaBuilder()
 	const [activeOverlayLabel, setActiveOverlayLabel] = useState<string | null>(null)
 	const [activeOverlayIcon, setActiveOverlayIcon] = useState<React.ElementType | null>(null)
@@ -518,21 +518,29 @@ export default function SchemaBuilder() {
 						{/* Right: JSON Schema */}
 						<div className="col-span-12 lg:col-span-3">
 							<div className="grid gap-4">
-								<JsonSchemaPanel schema={schema} errors={validation.errors} />
-								<UiSchemaPanel
-									uiSchemaText={uiSchemaText}
-									parseError={uiSchemaParse.ok ? null : uiSchemaParse.error}
-									isDirty={uiSchemaDirty}
-									onChangeText={(next) => {
-										setUiSchemaDirty(true)
-										setUiSchemaText(next)
-									}}
-									onResetToAuto={() => {
-										setUiSchemaDirty(false)
-										setUiSchemaText(JSON.stringify(uiSchema, null, 2))
-									}}
-								/>
-								<FormDataPanel liveFormData={liveFormData} submittedFormData={submittedFormData} />
+							<JsonSchemaPanel 
+								schema={schema} 
+								errors={validation.errors} 
+								onSchemaChange={setFieldsFromSchema}
+							/>
+							<UiSchemaPanel
+								uiSchemaText={uiSchemaText}
+								parseError={uiSchemaParse.ok ? null : uiSchemaParse.error}
+								isDirty={uiSchemaDirty}
+								onChangeText={(next) => {
+									setUiSchemaDirty(true)
+									setUiSchemaText(next)
+								}}
+								onResetToAuto={() => {
+									setUiSchemaDirty(false)
+									setUiSchemaText(JSON.stringify(uiSchema, null, 2))
+								}}
+							/>
+							<FormDataPanel 
+								liveFormData={liveFormData} 
+								submittedFormData={submittedFormData}
+								onFormDataChange={setLiveFormData}
+							/>
 							</div>
 						</div>
 					</div>

@@ -187,6 +187,68 @@ export function useSchemaBuilder() {
 		return next
 	}, [fields])
 
+	const setFieldsFromSchema = useCallback((newSchema: RJSFSchema) => {
+		try {
+			if (!newSchema || typeof newSchema !== 'object' || newSchema.type !== 'object') {
+				return
+			}
+
+			if (newSchema.title) setTitle(newSchema.title)
+
+			const properties = newSchema.properties || {}
+			const requiredList = (newSchema.required as string[]) || []
+
+			const newFields: BuilderField[] = []
+
+			for (const [name, prop] of Object.entries(properties)) {
+				const propAny = prop as any
+				let kind: FieldKind = 'string'
+
+				// Detect field kind from schema
+				if (propAny.enum && propAny.type === 'string') {
+					kind = 'select'
+				} else if (propAny.type === 'array' && propAny.items?.enum) {
+					kind = 'multiselect'
+				} else if (propAny.format === 'date') {
+					kind = 'date'
+				} else if (propAny.format === 'date-time') {
+					kind = 'datetime'
+				} else if (propAny.format === 'email') {
+					kind = 'email'
+				} else if (propAny.format === 'uri') {
+					kind = 'url'
+				} else if (propAny.type === 'number') {
+					kind = 'number'
+				} else if (propAny.type === 'integer') {
+					kind = 'integer'
+				} else if (propAny.type === 'boolean') {
+					kind = 'boolean'
+				}
+
+				const field: BuilderField = {
+					id: makeId(),
+					kind,
+					name,
+					title: propAny.title || name,
+					description: propAny.description,
+					required: requiredList.includes(name),
+					enumValues: propAny.enum || propAny.items?.enum,
+					minLength: propAny.minLength,
+					maxLength: propAny.maxLength,
+					pattern: propAny.pattern,
+					minimum: propAny.minimum,
+					maximum: propAny.maximum,
+				}
+
+				newFields.push(field)
+			}
+
+			setFields(newFields)
+		} catch (error) {
+			console.error('Failed to parse schema:', error)
+		}
+	}, [setTitle])
+
 	return {
 		title,
 		setTitle,
@@ -198,5 +260,6 @@ export function useSchemaBuilder() {
 		removeField,
 		updateField,
 		moveField,
+		setFieldsFromSchema,
 	}
 }
