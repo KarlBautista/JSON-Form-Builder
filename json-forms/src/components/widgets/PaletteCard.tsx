@@ -21,28 +21,28 @@ export default function PaletteCard({ template, onClick }: Props) {
 
 	const Icon = template.icon
 
-	return (
+		return (
 		<div
 			ref={setNodeRef}
 			style={style}
 			onClick={onClick}
 			className={
-				'group transform-gpu will-change-transform rounded-2xl border border-slate-200 bg-white p-2 shadow-sm select-none transition-colors cursor-pointer ' +
+				'group transform-gpu will-change-transform rounded-xl border border-slate-100 bg-white p-3 shadow-sm select-none cursor-pointer transition-all duration-200 ease-out ' +
 				(isDragging
-					? 'opacity-70'
-					: 'hover:border-sky-300 hover:bg-sky-50 active:scale-95 active:border-sky-400')
+					? 'opacity-70 scale-105 shadow-xl ring-2 ring-[#42855B]/20'
+					: 'hover:border-[#42855B]/30 hover:bg-[#42855B]/5 hover:shadow-lg hover:shadow-[#42855B]/5 hover:-translate-y-0.5 active:scale-95 active:border-[#42855B]/40')
 			}
 			{...listeners}
 			{...attributes}
 		>
 			<div className="flex items-center gap-3">
-				<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-400 transition-colors group-hover:bg-white group-hover:text-sky-500">
+				<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#42855B] text-white shadow-sm ring-1 ring-[#42855B]/20 transition-all duration-200 group-hover:scale-110 group-hover:shadow-md">
 					<Icon size={20} />
 				</div>
 				<div>
-					<div className="text-sm font-semibold text-slate-900">{template.label}</div>
-					<div className="text-xs text-slate-500 hidden sm:block">Drag to add</div>
-					<div className="text-xs text-slate-500 sm:hidden">Tap to add</div>
+					<div className="text-sm font-semibold text-slate-700 group-hover:text-[#42855B] transition-colors">{template.label}</div>
+					<div className="text-xs text-slate-400 hidden sm:block">Drag to add</div>
+					<div className="text-xs text-slate-400 sm:hidden">Tap to add</div>
 				</div>
 			</div>
 		</div>

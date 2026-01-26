@@ -29,31 +29,74 @@ const themes: Record<ThemeOption, ReturnType<typeof createTheme>> = {
 		palette: {
 			mode: 'light',
 			primary: {
-				main: '#0ea5e9',
+				main: '#42855B',
+				light: '#5d9c75',
+				dark: '#2f6342', // Darker shade of #42855B
+			},
+			secondary: {
+				main: '#483838', // A nice warm brownish/dark tone to complement or keep neutral
+				light: '#725f5f',
+				dark: '#261b1b',
 			},
 			background: {
-				default: '#f8fafc',
+				default: '#ffffff',
 				paper: '#ffffff',
 			},
+			text: {
+				primary: '#0f172a', // Slate 900
+				secondary: '#475569', // Slate 600
+			},
+		},
+		typography: {
+			fontFamily: '"Inter", "Plus Jakarta Sans", system-ui, sans-serif',
+			h5: { fontWeight: 700 },
+			button: { textTransform: 'none', fontWeight: 600 },
 		},
 		shape: {
-			borderRadius: 12,
+			borderRadius: 16,
 		},
 		components: {
 			MuiPaper: {
 				styleOverrides: {
 					root: {
 						backgroundImage: 'none',
-						boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)',
-						border: '1px solid #e2e8f0',
+						boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
+						border: '1px solid #f1f5f9',
 					},
 				},
 			},
 			MuiButton: {
+				defaultProps: {
+					disableElevation: true,
+				},
 				styleOverrides: {
 					root: {
-						textTransform: 'none',
-						fontWeight: 600,
+						borderRadius: '12px',
+						padding: '8px 20px',
+					},
+					containedPrimary: {
+						background: 'linear-gradient(135deg, #42855B 0%, #36704b 100%)',
+						'&:hover': {
+							background: 'linear-gradient(135deg, #36704b 0%, #2a583a 100%)',
+						}
+					}
+				},
+			},
+			MuiOutlinedInput: {
+				styleOverrides: {
+					root: {
+						borderRadius: '12px',
+						backgroundColor: '#f8fafc',
+						'& .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#e2e8f0',
+						},
+						'&:hover .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#cbd5e1',
+						},
+						'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#42855B',
+							borderWidth: '2px',
+						},
 					},
 				},
 			},
@@ -63,18 +106,22 @@ const themes: Record<ThemeOption, ReturnType<typeof createTheme>> = {
 		palette: {
 			mode: 'dark',
 			primary: {
-				main: '#3b82f6',
+				main: '#818cf8',
+				light: '#a5b4fc',
+				dark: '#6366f1',
 			},
 			secondary: {
-				main: '#8b5cf6',
+				main: '#34d399',
+				light: '#6ee7b7',
+				dark: '#10b981',
 			},
 			background: {
-				default: '#0f172a',
-				paper: '#1e293b',
+				default: '#0c0a09',
+				paper: '#1c1917',
 			},
 			text: {
-				primary: '#f1f5f9',
-				secondary: '#94a3b8',
+				primary: '#fafaf9',
+				secondary: '#a8a29e',
 			},
 		},
 		shape: {
@@ -85,14 +132,25 @@ const themes: Record<ThemeOption, ReturnType<typeof createTheme>> = {
 				styleOverrides: {
 					root: {
 						backgroundImage: 'none',
-						boxShadow: '0 0 0 1px rgba(148, 163, 184, 0.1)',
+						boxShadow: '0 0 0 1px rgba(168, 162, 158, 0.15)',
+						border: '1px solid rgba(250, 250, 249, 0.1)',
 					},
 				},
 			},
 			MuiInputBase: {
 				styleOverrides: {
 					root: {
-						backgroundColor: '#334155',
+						backgroundColor: '#292524',
+					},
+				},
+			},
+			MuiOutlinedInput: {
+				styleOverrides: {
+					root: {
+						'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#34d399',
+							borderWidth: '2px',
+						},
 					},
 				},
 			},
@@ -246,8 +304,8 @@ function CanvasDropZone({ children }: { children: React.ReactNode }) {
 		<div
 			ref={setNodeRef}
 			className={
-				'max-h-[60vh] min-h-[240px] overflow-auto rounded-2xl border-2 border-dashed p-3 transition ' +
-				(isOver ? 'border-blue-400 bg-blue-50/40' : 'border-slate-200 bg-white')
+				'max-h-[65vh] min-h-[300px] overflow-auto rounded-[1.5rem] border-2 border-dashed p-4 transition-all duration-300 ease-out ' +
+				(isOver ? 'border-[#42855B] bg-[#42855B]/5' : 'border-slate-200/60 bg-slate-50/50 hover:border-slate-300')
 			}
 		>
 			{children}
@@ -337,8 +395,8 @@ export default function SchemaBuilder() {
 		if (!activeOverlayLabel) return null
 		const Icon = activeOverlayIcon
 		return (
-			<div className="pointer-events-none flex transform-gpu items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-lg">
-				{Icon && <Icon className="h-4 w-4 text-slate-500" />}
+			<div className="pointer-events-none flex transform-gpu items-center gap-2 rounded-2xl border border-stone-200 bg-white px-3 py-2 text-sm font-semibold text-stone-900 shadow-lg">
+				{Icon && <Icon className="h-4 w-4 text-stone-500" />}
 				{activeOverlayLabel}
 			</div>
 		)
@@ -348,33 +406,35 @@ export default function SchemaBuilder() {
 
 	return (
 		<div className="min-h-screen">
-			<div className="mx-auto max-w-[1400px] p-4 lg:p-6">
-				<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:p-5">
-					<div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-						<div className="flex items-start gap-3">
-							<div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-sky-500/15 to-indigo-500/15 ring-1 ring-slate-200">
-								<div className="h-6 w-6 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500" />
+			<div className="mx-auto max-w-[1400px] p-4 lg:p-8">
+				<div className="rounded-[2rem] bg-white p-5 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 lg:p-6">
+					<div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+						<div className="flex items-center gap-4">
+							<div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-[#42855B] to-[#2f6342] shadow-lg shadow-[#42855B]/25 ring-1 ring-white/20">
+								<svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+								</svg>
 							</div>
 							<div>
-								<h1 className="text-lg font-extrabold tracking-tight text-slate-900 lg:text-xl">JSON Schema Form Builder</h1>
-								<p className="mt-0.5 text-sm text-slate-600">Drag components into the canvas. The schema updates live.</p>
+								<h1 className="text-xl font-bold tracking-tight text-slate-900">Schema Builder</h1>
+								<p className="mt-0.5 text-xs font-medium text-slate-500">Visual JSON Forms Editor</p>
 							</div>
 						</div>
 						
 						
-						<label className="flex flex-col text-sm font-semibold text-slate-700">
-							Form Title
+						<label className="flex flex-col">
+							<span className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Form Title</span>
 							<input 
-								className="mt-1 rounded-2xl border border-slate-200 px-3 py-1.5 font-normal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-								placeholder="e.g. My Survey"
+								className="min-w-[240px] rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 placeholder:text-slate-400 focus:border-[#42855B] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#42855B]/10 transition-all"
+								placeholder="e.g. User Registration"
 								value={title}
 								onChange={e => setTitle(e.target.value)}
 							/>
 						</label>
 
-						<div className="flex flex-wrap items-center gap-2">
-							<div className="text-xs text-slate-600">
-								<span className="rounded-full border border-slate-200 bg-white px-2 py-1">Fields: {fields.length}</span>
+						<div className="flex flex-wrap items-center gap-3">
+							<div className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
+								Fields: {fields.length}
 							</div>
 							<button
 								type="button"
@@ -386,7 +446,7 @@ export default function SchemaBuilder() {
 										// Actually, I can just not implement clear yet and focus on Copy.
 									}
 								}}
-								className="hidden rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100"
+								className="hidden rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100"
 							>
 								Clear
 							</button>
@@ -398,10 +458,10 @@ export default function SchemaBuilder() {
 									alert('JSON Schema copied to clipboard!')
 								}}
 								className={
-									'rounded-2xl px-4 py-2 text-sm font-extrabold tracking-tight transition ' +
+									'rounded-xl px-6 py-2.5 text-sm font-bold tracking-wide transition-all duration-200 shadow-lg ' +
 									(!validation.isValid
-										? 'cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500'
-										: 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-sm hover:brightness-105')
+										? 'cursor-not-allowed bg-slate-100 text-slate-400 shadow-none'
+									: 'bg-[#42855B] text-white shadow-[#42855B]/30 hover:bg-[#36704b] hover:shadow-[#42855B]/40 hover:-translate-y-0.5 active:translate-y-0')
 								}
 							>
 								Copy JSON
@@ -420,19 +480,19 @@ export default function SchemaBuilder() {
 					<div className="mt-4 grid grid-cols-12 gap-4">
 
 						<div className="col-span-12 lg:col-span-3">
-							<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-								<div className="mt-4">
-									<label className="mb-5 grid gap-1 text-xs text-slate-600">
-										<span className="font-semibold">Schema title</span>
+							<div className="sticky top-6 rounded-[1.5rem] bg-white p-5 shadow-lg shadow-slate-200/50 ring-1 ring-slate-100">
+								<div className="mt-2">
+									<label className="mb-5 grid gap-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+										<span>Schema title</span>
 										<input
-											className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+											className="rounded-2xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
 											value={title}
 											onChange={(e) => setTitle(e.target.value)}
 											placeholder="e.g. Registration"
 										/>
 									</label>
 								</div>
-								<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Components</h2>
+								<h2 className="text-sm font-extrabold tracking-tight text-stone-900">Components</h2>
 								<div className="mt-3 grid gap-2">
 									{FIELD_PALETTE.map((t) => (
 										<PaletteCard key={t.kind} template={t} onClick={() => addFromTemplate(t)} />
@@ -444,19 +504,19 @@ export default function SchemaBuilder() {
 
 						{/* Center: Canvas + Preview */}
 						<div className="col-span-12 lg:col-span-6">
-							<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-								<div className="flex items-center justify-between gap-3">
-									<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Canvas</h2>
-									<div className="text-xs text-slate-500">Drag to reorder</div>
+							<div className="rounded-[1.5rem] bg-white p-5 shadow-lg shadow-slate-200/50 ring-1 ring-slate-100">
+								<div className="flex items-center justify-between gap-3 mb-4">
+									<h2 className="text-sm font-extrabold tracking-tight text-slate-900 uppercase">Canvas</h2>
+									<div className="text-xs font-medium text-slate-400">Drag to reorder</div>
 								</div>
 
-								<div className="mt-3">
+								<div>
 									<CanvasDropZone>
 										{fields.length === 0 ? (
 											<div className="grid place-items-center py-12 text-center">
 												<div>
-													<div className="text-sm font-semibold text-slate-800">Drop components here</div>
-													<div className="text-xs text-slate-500">Then edit name/title/required</div>
+													<div className="text-sm font-semibold text-stone-800">Drop components here</div>
+													<div className="text-xs text-stone-500">Then edit name/title/required</div>
 												</div>
 											</div>
 										) : (
@@ -477,14 +537,15 @@ export default function SchemaBuilder() {
 								</div>
 							</div>
 
-							<div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-						<div className="flex items-center justify-between gap-3">
-							<h2 className="text-sm font-extrabold tracking-tight text-slate-900">Live Preview</h2>
-							<select
-								value={selectedTheme}
-								onChange={(e) => setSelectedTheme(e.target.value as ThemeOption)}
-								className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
-							>
+							<div className="mt-6 rounded-[1.5rem] bg-white p-5 shadow-lg shadow-slate-200/50 ring-1 ring-slate-100">
+						<div className="flex items-center justify-between gap-3 mb-4">
+							<h2 className="text-sm font-extrabold tracking-tight text-slate-900 uppercase">Live Preview</h2>
+							<div className="relative">
+								<select
+									value={selectedTheme}
+									onChange={(e) => setSelectedTheme(e.target.value as ThemeOption)}
+									className="appearance-none rounded-xl border border-slate-200 bg-slate-50 py-1.5 pl-3 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#42855B]/20"
+								>
 							<option value="modern">Modern Blue</option>
 							<option value="midnight">Midnight Dark</option>
 							<option value="ocean">Ocean Breeze</option>
@@ -492,6 +553,12 @@ export default function SchemaBuilder() {
 							<option value="forest">Forest Green</option>
 							<option value="pastel">Pastel Dream</option>
 							</select>
+							<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+								<svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+									<path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+								</svg>
+							</div>
+							</div>
 						</div>
 						<div className="mt-3 max-h-[60vh] overflow-auto pr-1">
 							<ThemeProvider theme={themes[selectedTheme]}>							<div style={{ 
@@ -550,3 +617,4 @@ export default function SchemaBuilder() {
 		</div>
 	)
 }
+

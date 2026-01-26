@@ -123,13 +123,13 @@ export function useSchemaBuilder() {
 			
 			if (field.kind === 'select' || field.kind === 'radio') {
 				prop.type = 'string'
-				prop.enum = (field.enumValues ?? []).filter(Boolean)
+				prop.enum = (field.enumValues ?? []).map(v => v.trim()).filter(Boolean)
 			} else if (field.kind === 'multiselect') {
 				prop.type = 'array'
 				prop.uniqueItems = true
 				prop.items = {
 					type: 'string',
-					enum: (field.enumValues ?? []).filter(Boolean),
+					enum: (field.enumValues ?? []).map(v => v.trim()).filter(Boolean),
 				}
 			} else if (field.kind === 'date') {
 				prop.type = 'string'

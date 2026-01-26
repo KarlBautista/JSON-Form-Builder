@@ -30,9 +30,9 @@ export default function JsonSchemaPanel({ schema, errors, onSchemaChange }: Prop
 	}
 
 	return (
-		<div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-			<div className="flex items-center justify-between gap-3">
-				<h2 className="text-sm font-extrabold tracking-tight text-slate-900">JSON Schema</h2>
+		<div className="rounded-[1.5rem] bg-white p-5 shadow-lg shadow-slate-200/50 ring-1 ring-slate-100">
+			<div className="flex items-center justify-between gap-3 mb-3">
+				<h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">JSON Schema</h2>
 				{onSchemaChange && (
 					<button
 						onClick={() => {
@@ -42,7 +42,7 @@ export default function JsonSchemaPanel({ schema, errors, onSchemaChange }: Prop
 								setIsEditing(true)
 							}
 						}}
-						className="rounded-xl bg-sky-500 px-3 py-1 text-xs font-semibold text-white hover:bg-sky-600"
+						className="rounded-lg bg-[#42855B]/10 px-3 py-1 text-xs font-semibold text-[#42855B] hover:bg-[#42855B]/20 transition-colors"
 					>
 						{isEditing ? 'Apply' : 'Edit'}
 					</button>
@@ -71,14 +71,15 @@ export default function JsonSchemaPanel({ schema, errors, onSchemaChange }: Prop
 				<textarea
 					value={schemaText}
 					onChange={(e) => setSchemaText(e.target.value)}
-					className="mt-3 max-h-[70vh] w-full overflow-auto rounded-2xl border border-slate-200 bg-slate-950 p-3 font-mono text-xs text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-400"
+					className="mt-3 max-h-[70vh] w-full overflow-auto rounded-2xl border border-stone-200 bg-stone-950 p-3 font-mono text-xs text-stone-50 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 					rows={20}
 				/>
 			) : (
-				<pre className="mt-3 max-h-[70vh] overflow-auto rounded-2xl border border-slate-200 bg-slate-950 p-3 text-xs text-slate-50">
+				<pre className="mt-3 max-h-[70vh] overflow-auto rounded-2xl border border-stone-200 bg-stone-950 p-3 text-xs text-stone-50">
 					{JSON.stringify(schema, null, 2)}
 				</pre>
 			)}
 		</div>
 	)
 }
+
